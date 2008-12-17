@@ -39,7 +39,7 @@ class Hash #:nodoc:
 
   private
     def self.keys_to_sym(hsh)
-      hsh.each_key {|k| hsh[k.to_s.downcase.sub(/ /, '_').to_sym] = hsh.delete(k)}
+      hsh.each_key {|k| hsh[k.to_s.downcase.gsub(/ /, '_').to_sym] = hsh.delete(k)}
       return hsh
     end
     
