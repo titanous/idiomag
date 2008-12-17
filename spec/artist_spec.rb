@@ -68,7 +68,6 @@ describe 'Idiomag::Artist' do
     it 'should get articles' do
       @artist.articles[0][:artist].should == 'Anberlin'
       @artist.articles[0][:description].blank?.should_not == true
-      @artist.articles[0][:source_url].blank?.should_not == true
     end
     
     it 'should parse the dates' do
