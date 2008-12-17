@@ -3,6 +3,7 @@ module Idiomag
     include REST
     
     def initialize(artist)
+      raise ArgumentError if artist.blank?
       @artist = artist
     end
     

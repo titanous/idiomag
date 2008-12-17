@@ -6,6 +6,10 @@ describe 'Idiomag::Artist' do
     Idiomag::Base.api_key = 'foo'
   end
   
+  it 'should require an artist' do
+    lambda { Idiomag::Artist.new }.should raise_error(ArgumentError)
+  end
+  
   describe 'info' do
     before(:each) do
       @data = open(Fixtures + 'artist_info.json').read
@@ -90,7 +94,7 @@ describe 'Idiomag::Artist' do
       @artist.playlist[0][:location] =~ /mp3/
     end
     
-    it 'should respond to tracks' do
+    it 'should respond to #tracks' do
       @artist.tracks[0][:location] =~ /mp3/
     end
   end
