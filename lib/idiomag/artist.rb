@@ -20,11 +20,16 @@ module Idiomag
           get_photos
         when :videos
           get_videos
-        when :playlist
-          get_playlist
-        when :tracks
+        when :playlist, :tracks
           get_playlist
         end
+      end
+    end
+    
+    def respond_to?(method)
+      case method
+      when :new,:get,:links,:related,:tags,:articles,:photos,:videos,:playlist,:tracks
+        true
       end
     end
     
@@ -48,12 +53,11 @@ module Idiomag
       when :videos
         get_videos if @videos.nil?
         @videos
-      when :playlist
+      when :playlist, :tracks
         get_playlist if @playlist.nil?
         @playlist
-      when :tracks
-        get_playlist if @playlist.nil?
-        @playlist
+      else
+        super
       end
     end
     

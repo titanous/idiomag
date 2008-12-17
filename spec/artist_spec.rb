@@ -10,6 +10,19 @@ describe 'Idiomag::Artist' do
     lambda { Idiomag::Artist.new }.should raise_error(ArgumentError)
   end
   
+  it 'should respond_to the correct methods' do
+    @artist.respond_to?(:new).should == true
+    @artist.respond_to?(:get).should == true
+    @artist.respond_to?(:links).should == true
+    @artist.respond_to?(:related).should == true
+    @artist.respond_to?(:tags).should == true
+    @artist.respond_to?(:articles).should == true
+    @artist.respond_to?(:photos).should == true
+    @artist.respond_to?(:videos).should == true
+    @artist.respond_to?(:playlist).should == true
+    @artist.respond_to?(:tracks).should == true
+  end
+  
   describe 'info' do
     before(:each) do
       @data = open(Fixtures + 'artist_info.json').read
