@@ -1,5 +1,5 @@
 module Idiomag
-  class Artist < Base
+  class Artist
     include REST
     
     def initialize(artist)
