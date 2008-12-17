@@ -5,4 +5,5 @@ gem 'httparty', '0.2.2'
 require 'httparty'
 
 require 'idiomag/version'
+require 'idiomag/base'
 require 'idiomag/artist'

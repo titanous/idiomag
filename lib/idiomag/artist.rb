@@ -1,5 +1,9 @@
 module Idiomag
-  class Artist
+  class Artist < Base
+    
+    def initialize
+      
+    end
     
   end
 end
