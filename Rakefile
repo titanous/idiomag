@@ -7,7 +7,7 @@ Echoe.new('idiomag', Idiomag::Version) do |p|
   p.description = 'wrapper for the idiomag api'
   p.author = 'Jonathan Rudenberg'
   p.email = 'jon335@gmail.com'
-  p.extra_deps = [['httparty', '0.2.2']]
+  p.extra_deps = [['httparty', '0.2.2'], ['json', '1.1.3']]
 end
  
 desc 'Preps the gem for a new release'

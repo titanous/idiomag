@@ -10,3 +10,5 @@ dir = File.dirname(__FILE__)
  
 $:.unshift(File.join(dir, '/../lib/'))
 require dir + '/../lib/idiomag'
+
+Fixtures = File.dirname(__FILE__) + '/fixtures/'
