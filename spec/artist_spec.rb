@@ -3,7 +3,6 @@ require File.dirname(__FILE__) + '/spec_helper.rb'
 describe 'Idiomag::Artist' do
   before(:each) do
     @artist = Idiomag::Artist.new('Anberlin')
-    Idiomag::Base.api_key = 'foo'
   end
   
   it 'should require an artist' do
