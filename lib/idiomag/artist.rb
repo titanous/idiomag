@@ -28,8 +28,10 @@ module Idiomag
     
     def respond_to?(method)
       case method
-      when :new,:get,:links,:related,:tags,:articles,:photos,:videos,:playlist,:tracks
+      when :links,:related,:tags,:articles,:photos,:videos,:playlist,:tracks
         true
+      else
+        super
       end
     end
     
