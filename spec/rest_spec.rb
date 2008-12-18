@@ -10,15 +10,15 @@ describe 'Idiomag::REST' do
     lambda { Idiomag::REST.fetch('foo') }.should raise_error(ArgumentError)
   end
   
-  it 'should get a resource with no query and parse JSON' do
+  it 'should get a resource with no query and parsed JSON' do
     @data = open(Fixtures + 'artist_info.json').read
-    HTTParty.should_receive(:get).with(Idiomag::API_URL + 'bar/json',:query=>{:key=>'foo'}).and_return(@data)
+    HTTParty.should_receive(:get).with(Idiomag::API_URL + 'bar/json',{:query=>{:key=>'foo'},:format=>:json}).and_return(JSON.parse(@data))
     Idiomag::REST.fetch('bar').class.should == Hash
   end
   
-  it 'should get a resource with a query and parse JSON' do
+  it 'should get a resource with a query and parsed JSON' do
     @data = open(Fixtures + 'artist_info.json').read
-    HTTParty.should_receive(:get).with(Idiomag::API_URL + 'bar/json',:query=>{:key=>'foo',:chunky=>'bacon'}).and_return(@data)
+    HTTParty.should_receive(:get).with(Idiomag::API_URL + 'bar/json',{:query=>{:key=>'foo',:chunky=>'bacon'}, :format=>:json}).and_return(JSON.parse(@data))
     Idiomag::REST.fetch('bar',:chunky=>'bacon').class.should == Hash
   end
   
