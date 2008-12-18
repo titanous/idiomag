@@ -17,7 +17,6 @@ describe 'Idiomag::Tag' do
     @tag.respond_to?(:playlist).should == true
     @tag.respond_to?(:tracks).should == true
     @tag.respond_to?(:artists).should == true
-    @tag.respond_to?(:list).should == true
   end
   
   it 'should allow symbols and strings as tag names' do
@@ -122,20 +121,16 @@ describe 'Idiomag::Tag' do
   describe 'list' do
     before(:each) do
       @data = open(Fixtures + 'tag_list.txt').read
-      @tag.should_receive(:fetch).and_return(@data)
+      Idiomag::Tag.should_receive(:fetch).at_most(1).times.and_return(@data)
+      @tag.should_receive(:fetch).at_most(1).times.and_return(@data)
     end
     
-    it 'should allow prefetching' do
-      @tag.get(:list)
-    end
-    
-    it 'should get the tag list' do
-      @tag.list.should include(:alternative_rock)
-    end
-    
-    it 'should respond to the class method' do
-      pending("mock this properly")
+    it 'should get the tag list via class method' do
       Idiomag::Tag.list.should include(:alternative_rock)
+    end
+    
+    it 'should get the tag list via instance method' do
+      @tag.list.should include('hip-hop')
     end
   end
 end

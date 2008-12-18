@@ -20,8 +20,6 @@ module Idiomag
           get_playlist
         when :artists
           get_artists
-        when :list
-          get_list
         end
       end
     end
@@ -53,15 +51,29 @@ module Idiomag
         get_artists if @artists.nil?
         @artists
       when :list
-        get_list if @list.nil?
-        @list
+        Tag.list
       else
         super
       end
     end
     
-    def self.list
-      Tag.new('foo').list
+    class << self      
+      def list
+        if @list.blank?
+          @list_data = fetch('tags', {}, false)
+      
+          @list = @list_data.split("\n")
+          @list.map! do |t|
+            if t =~ /-/
+              t.strip.downcase
+            else
+              t.strip.downcase.gsub(/ /, '_').to_sym
+            end
+          end
+        else
+          @list
+        end
+      end
     end
     
     private
@@ -106,13 +118,6 @@ module Idiomag
       
         @artists = {}
         @artist_data['profile']['artist'].each {|t| @artists[t['title']] = t['value']}
-      end
-      
-      def get_list
-        @list_data = fetch('tags', {}, false)
-        
-        @list = @list_data.split("\n")
-        @list.map! {|t| t.strip.downcase.gsub(/ /, '_').to_sym}
       end
   end
 end
