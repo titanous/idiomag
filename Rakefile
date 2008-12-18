@@ -34,3 +34,8 @@ task :coverage do
   system "rcov --text-summary -Ilib -x spec spec/*_spec.rb"
   system "open coverage/index.html" if PLATFORM['darwin']
 end
+
+desc 'Run specs'
+task :spec do
+  system "spec -c spec/*_spec.rb"
+end
