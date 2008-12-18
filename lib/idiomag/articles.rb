@@ -1,8 +1,5 @@
 module Idiomag
   class Articles
-    include REST
-    include Parser
-    
       def get(*args)
         args.each do |action|
           case action
@@ -41,11 +38,11 @@ module Idiomag
       private
 
         def get_latest
-          @latest = parse_articles(fetch('articles/latest'))
+          @latest = Parser.parse_articles(REST.fetch('articles/latest'))
         end
         
         def get_featured
-          @featured = parse_articles(fetch('articles/featured'))
+          @featured = Parser.parse_articles(REST.fetch('articles/featured'))
         end
   end
 end

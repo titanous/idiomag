@@ -40,7 +40,7 @@ describe 'Idiomag::Tag' do
   describe 'articles' do
     before(:each) do
       @data = open(Fixtures + 'tag_articles.json').read
-      @tag.should_receive(:fetch).and_return(JSON.parse(@data))
+      Idiomag::REST.should_receive(:fetch).with('tag/articles',:tag=>'alternative rock').and_return(JSON.parse(@data))
     end
     
     it 'should allow prefetching' do
@@ -60,7 +60,7 @@ describe 'Idiomag::Tag' do
   describe 'photos' do
     before(:each) do
       @data = open(Fixtures + 'tag_photos.json').read
-      @tag.should_receive(:fetch).and_return(JSON.parse(@data))
+      Idiomag::REST.should_receive(:fetch).with('tag/photos',:tag=>'alternative rock').and_return(JSON.parse(@data))
     end
     
     it 'should allow prefetching' do
@@ -82,7 +82,7 @@ describe 'Idiomag::Tag' do
   describe 'videos' do    
     before(:each) do
       @data = open(Fixtures + 'tag_videos.json').read
-      @tag.should_receive(:fetch).and_return(JSON.parse(@data))
+      Idiomag::REST.should_receive(:fetch).with('tag/videos',:tag=>'alternative rock').and_return(JSON.parse(@data))
     end
     
     it 'should allow prefetching' do
@@ -99,7 +99,7 @@ describe 'Idiomag::Tag' do
   describe 'playlist' do
     before(:each) do
       @data = open(Fixtures + 'tag_playlist.json').read
-      @tag.should_receive(:fetch).and_return(JSON.parse(@data))
+      Idiomag::REST.should_receive(:fetch).with('tag/playlist',:tag=>'alternative rock').and_return(JSON.parse(@data))
     end
     
     it 'should allow prefetching' do
@@ -119,7 +119,7 @@ describe 'Idiomag::Tag' do
   describe 'artists' do
     before(:each) do
       @data = open(Fixtures + 'tag_artists.json').read
-      @tag.should_receive(:fetch).and_return(JSON.parse(@data))
+      Idiomag::REST.should_receive(:fetch).with('tag/artists',:tag=>'alternative rock').and_return(JSON.parse(@data))
     end
     
     it 'should allow prefetching' do
@@ -135,7 +135,7 @@ describe 'Idiomag::Tag' do
     before(:each) do
       @data = open(Fixtures + 'tag_list.txt').read
       Idiomag::Tag.should_receive(:fetch).at_most(1).times.and_return(@data)
-      @tag.should_receive(:fetch).at_most(1).times.and_return(@data)
+      Idiomag::REST.should_receive(:fetch).with('tags',{},false).at_most(1).times.and_return(@data)
     end
     
     it 'should get the tag list via class method' do

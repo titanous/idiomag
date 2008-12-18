@@ -40,7 +40,7 @@ describe 'Idiomag::User' do
   describe 'info' do
     before(:each) do
       @data = open(Fixtures + 'user_info.json').read
-      @user.should_receive(:fetch).and_return(JSON.parse(@data))
+      Idiomag::REST.should_receive(:fetch).with('user/info',:user=>'Titanous').and_return(JSON.parse(@data))
     end
 
     it 'should allow prefetching' do
@@ -71,7 +71,7 @@ describe 'Idiomag::User' do
   describe 'articles' do
     before(:each) do
       @data = open(Fixtures + 'user_articles.json').read
-      @user.should_receive(:fetch).and_return(JSON.parse(@data))
+      Idiomag::REST.should_receive(:fetch).with('user/articles',:user=>'Titanous').and_return(JSON.parse(@data))
     end
     
    it 'should allow prefetching' do
@@ -91,7 +91,7 @@ describe 'Idiomag::User' do
   describe 'loved articles' do
      before(:each) do
        @data = open(Fixtures + 'user_lovedarticles.json').read
-       @user.should_receive(:fetch).and_return(JSON.parse(@data))
+       Idiomag::REST.should_receive(:fetch).with('user/lovedarticles',:user=>'Titanous').and_return(JSON.parse(@data))
      end
 
     it 'should allow prefetching' do
@@ -111,7 +111,7 @@ describe 'Idiomag::User' do
   describe 'photos' do
     before(:each) do
       @data = open(Fixtures + 'user_photos.json').read
-      @user.should_receive(:fetch).and_return(JSON.parse(@data))
+      Idiomag::REST.should_receive(:fetch).with('user/photos',:user=>'Titanous').and_return(JSON.parse(@data))
     end
     
     it 'should allow prefetching' do
@@ -133,7 +133,7 @@ describe 'Idiomag::User' do
   describe 'videos' do    
     before(:each) do
       @data = open(Fixtures + 'user_videos.json').read
-      @user.should_receive(:fetch).and_return(JSON.parse(@data))
+      Idiomag::REST.should_receive(:fetch).with('user/videos',:user=>'Titanous').and_return(JSON.parse(@data))
     end
     
     it 'should allow prefetching' do
@@ -150,7 +150,7 @@ describe 'Idiomag::User' do
   describe 'playlist' do
     before(:each) do
       @data = open(Fixtures + 'user_playlist.json').read
-      @user.should_receive(:fetch).and_return(JSON.parse(@data))
+      Idiomag::REST.should_receive(:fetch).with('user/playlist',:user=>'Titanous').and_return(JSON.parse(@data))
     end
     
     it 'should allow prefetching' do

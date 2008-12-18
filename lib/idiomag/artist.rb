@@ -1,7 +1,5 @@
 module Idiomag
   class Artist
-    include REST
-    include Parser
     
     def initialize(artist)
       raise ArgumentError if artist.blank?
@@ -71,7 +69,7 @@ module Idiomag
     private
     
       def get_info
-        info_data = fetch('artist/info', {:artist => @artist})
+        info_data = REST.fetch('artist/info', :artist => @artist)
         @links = info_data['links']['url']
       
         @related = {}
@@ -79,7 +77,7 @@ module Idiomag
       end
     
       def get_tags
-        tag_data = fetch('artist/tags', {:artist => @artist})
+        tag_data = REST.fetch('artist/tags', :artist => @artist)
       
         @tags = {}
         tag_data['profile']['tag'].each {|t| @tags[t['name']] = t['value']}
@@ -87,19 +85,19 @@ module Idiomag
       end
     
       def get_articles
-        @articles = parse_articles(fetch('artist/articles', {:artist => @artist}))
+        @articles = Parser.parse_articles(REST.fetch('artist/articles', :artist => @artist))
       end
     
       def get_photos
-        @photos = parse_photos(fetch('artist/photos', {:artist => @artist}))
+        @photos = Parser.parse_photos(REST.fetch('artist/photos', :artist => @artist))
       end
     
       def get_videos
-        @videos = parse_videos(fetch('artist/videos', {:artist => @artist}))
+        @videos = Parser.parse_videos(REST.fetch('artist/videos', :artist => @artist))
       end
     
       def get_playlist
-        @playlist = parse_playlist(fetch('artist/playlist', {:artist => @artist}))
+        @playlist = Parser.parse_playlist(REST.fetch('artist/playlist', :artist => @artist))
       end
   end
 end

@@ -1,6 +1,6 @@
 module Idiomag
-  module REST    
-    def fetch(resource, query={}, parse=true)
+  class REST
+    def self.fetch(resource, query={}, parse=true)
       raise ArgumentError, 'api key missing' if Base.api_key.blank?
       
       @options = {:query => {:key => Base.api_key}}

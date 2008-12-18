@@ -1,8 +1,5 @@
 module Idiomag
-  class Tag
-    include REST
-    include Parser
-    
+  class Tag    
     def initialize(tag)
       raise ArgumentError if tag.blank?
       @tag = tag.to_s.gsub(/_/, ' ')
@@ -65,7 +62,7 @@ module Idiomag
     class << self      
       def list
         if @list.blank?
-          @list_data = fetch('tags', {}, false)
+          @list_data = REST.fetch('tags', {}, false)
       
           @list = @list_data.split("\n")
           @list.map! do |t|
@@ -84,23 +81,23 @@ module Idiomag
     private
     
       def get_articles
-        @articles = parse_articles(fetch('tag/articles', {:tag => @tag}))
+        @articles = Parser.parse_articles(REST.fetch('tag/articles', :tag => @tag))
       end
     
       def get_photos
-        @photos = parse_photos(fetch('tag/photos', {:tag => @tag}))
+        @photos = Parser.parse_photos(REST.fetch('tag/photos', :tag => @tag))
       end
     
       def get_videos
-        @videos = parse_videos(fetch('tag/videos', {:tag => @tag}))
+        @videos = Parser.parse_videos(REST.fetch('tag/videos', :tag => @tag))
       end
     
       def get_playlist
-        @playlist = parse_playlist(fetch('tag/playlist', {:tag => @tag}))
+        @playlist = Parser.parse_playlist(REST.fetch('tag/playlist', :tag => @tag))
       end
       
       def get_artists
-        artist_data = fetch('tag/artist', {:tag => @tag})
+        artist_data = REST.fetch('tag/artists', :tag => @tag)
       
         @artists = {}
         artist_data['profile']['artist'].each {|t| @artists[t['title']] = t['value']}

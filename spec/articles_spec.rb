@@ -22,7 +22,7 @@ describe 'Idiomag::Articles' do
   describe 'latest' do
     before(:each) do
       @data = open(Fixtures + 'articles_latest.json').read
-      @articles.should_receive(:fetch).and_return(JSON.parse(@data))
+      Idiomag::REST.should_receive(:fetch).with('articles/latest').and_return(JSON.parse(@data))
     end
     
     it 'should allow prefetching' do
@@ -42,7 +42,7 @@ describe 'Idiomag::Articles' do
   describe 'featured' do
     before(:each) do
       @data = open(Fixtures + 'articles_featured.json').read
-      @articles.should_receive(:fetch).and_return(JSON.parse(@data))
+      Idiomag::REST.should_receive(:fetch).with('articles/featured').and_return(JSON.parse(@data))
     end
     
     it 'should allow prefetching' do

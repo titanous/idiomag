@@ -37,7 +37,7 @@ describe 'Idiomag::Artist' do
   describe 'info' do
     before(:each) do
       @data = open(Fixtures + 'artist_info.json').read
-      @artist.should_receive(:fetch).and_return(JSON.parse(@data))
+      Idiomag::REST.should_receive(:fetch).with('artist/info',:artist=>'Anberlin').and_return(JSON.parse(@data))
     end
     
     it 'should allow prefetching' do
@@ -56,7 +56,7 @@ describe 'Idiomag::Artist' do
   describe 'tags' do
     before(:each) do
       @data = open(Fixtures + 'artist_tags.json').read
-      @artist.should_receive(:fetch).and_return(JSON.parse(@data))
+      Idiomag::REST.should_receive(:fetch).with('artist/tags',:artist=>'Anberlin').and_return(JSON.parse(@data))
     end
     
     it 'should allow prefetching' do
@@ -71,7 +71,7 @@ describe 'Idiomag::Artist' do
   describe 'articles' do
     before(:each) do
       @data = open(Fixtures + 'artist_articles.json').read
-      @artist.should_receive(:fetch).and_return(JSON.parse(@data))
+      Idiomag::REST.should_receive(:fetch).with('artist/articles',:artist=>'Anberlin').and_return(JSON.parse(@data))
     end
     
     it 'should allow prefetching' do
@@ -91,7 +91,7 @@ describe 'Idiomag::Artist' do
   describe 'photos' do
     before(:each) do
       @data = open(Fixtures + 'artist_photos.json').read
-      @artist.should_receive(:fetch).and_return(JSON.parse(@data))
+      Idiomag::REST.should_receive(:fetch).with('artist/photos',:artist=>'Anberlin').and_return(JSON.parse(@data))
     end
     
     it 'should allow prefetching' do
@@ -113,7 +113,7 @@ describe 'Idiomag::Artist' do
   describe 'videos' do    
     before(:each) do
       @data = open(Fixtures + 'artist_videos.json').read
-      @artist.should_receive(:fetch).and_return(JSON.parse(@data))
+      Idiomag::REST.should_receive(:fetch).with('artist/videos',:artist=>'Anberlin').and_return(JSON.parse(@data))
     end
     
     it 'should allow prefetching' do
@@ -130,7 +130,7 @@ describe 'Idiomag::Artist' do
   describe 'playlist' do
     before(:each) do
       @data = open(Fixtures + 'artist_playlist.json').read
-      @artist.should_receive(:fetch).and_return(JSON.parse(@data))
+      Idiomag::REST.should_receive(:fetch).with('artist/playlist',:artist=>'Anberlin').and_return(JSON.parse(@data))
     end
     
     it 'should allow prefetching' do

@@ -1,8 +1,5 @@
 module Idiomag
   class User
-    include REST
-    include Parser
-    
     attr_accessor :user
     
     def initialize(user)
@@ -80,7 +77,7 @@ module Idiomag
     private
       
       def get_info
-        info_data = fetch('user/info', {:user => @user})
+        info_data = REST.fetch('user/info', {:user => @user})
         
         @name = info_data['name']
         @email = info_data['email_sha1']
@@ -95,23 +92,23 @@ module Idiomag
       end
       
       def get_articles
-        @articles = parse_articles(fetch('user/articles', {:user => @user}))
+        @articles = Parser.parse_articles(REST.fetch('user/articles', :user => @user))
       end
       
       def get_loved_articles
-        @loved_articles = parse_articles(fetch('user/lovedarticles', {:user => @user}))
+        @loved_articles = Parser.parse_articles(REST.fetch('user/lovedarticles', :user => @user))
       end
       
       def get_photos
-        @photos = parse_photos(fetch('user/photos', {:user => @user}))
+        @photos = Parser.parse_photos(REST.fetch('user/photos', :user => @user))
       end
       
       def get_videos
-        @videos = parse_videos(fetch('user/videos', {:user => @user}))
+        @videos = Parser.parse_videos(REST.fetch('user/videos', :user => @user))
       end
       
       def get_playlist
-        @playlist = parse_playlist(fetch('user/playlist', {:user => @user}))
+        @playlist = Parser.parse_playlist(REST.fetch('user/playlist', :user => @user))
       end
   end
 end
