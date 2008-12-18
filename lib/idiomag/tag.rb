@@ -27,7 +27,7 @@ module Idiomag
     
     def respond_to?(method)
       case method
-      when :articles,:photos,:videos,:playlist,:tracks,:artists,:list
+      when :articles,:photos,:videos,:playlist,:tracks,:artists,:list,:name
         true
       else
         super
@@ -36,6 +36,8 @@ module Idiomag
     
     def method_missing(method, *args)  
       case method
+      when :name
+        @tag
       when :articles
         get_articles if @articles.nil?
         @articles

@@ -9,6 +9,10 @@ describe 'Idiomag::Artist' do
     lambda { Idiomag::Artist.new }.should raise_error(ArgumentError)
   end
   
+  it 'should know the artist name' do
+    @artist.name.should == 'Anberlin'
+  end
+  
   it 'should respond_to the correct methods' do
     @artist.respond_to?(:get).should == true
     @artist.respond_to?(:links).should == true

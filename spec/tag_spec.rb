@@ -9,6 +9,10 @@ describe 'Idiomag::Tag' do
     lambda { Idiomag::Tag.new }.should raise_error(ArgumentError)
   end
   
+  it 'should know the tag name' do
+    @tag.name.should == 'alternative rock'
+  end
+  
   it 'should respond_to the correct methods' do
     @tag.respond_to?(:get).should == true
     @tag.respond_to?(:articles).should == true
