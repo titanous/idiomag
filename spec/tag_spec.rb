@@ -15,6 +15,7 @@ describe 'Idiomag::Tag' do
   
   it 'should respond_to the correct methods' do
     @tag.respond_to?(:get).should == true
+    @tag.respond_to?(:name).should == true
     @tag.respond_to?(:articles).should == true
     @tag.respond_to?(:photos).should == true
     @tag.respond_to?(:videos).should == true

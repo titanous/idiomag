@@ -15,6 +15,7 @@ describe 'Idiomag::Artist' do
   
   it 'should respond_to the correct methods' do
     @artist.respond_to?(:get).should == true
+    @artist.respond_to?(:name).should == true
     @artist.respond_to?(:links).should == true
     @artist.respond_to?(:related).should == true
     @artist.respond_to?(:tags).should == true
