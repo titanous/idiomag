@@ -26,6 +26,14 @@ describe 'Idiomag::Artist' do
     @artist.respond_to?(:tracks).should == true
   end
 
+  it 'should error on invalid get argument' do
+    lambda { @artist.get(:foo) }.should raise_error(ArgumentError)
+  end
+  
+  it 'should error on invalid method' do
+    lambda { @artist.foo }.should raise_error(NoMethodError)
+  end
+
   describe 'info' do
     before(:each) do
       @data = open(Fixtures + 'artist_info.json').read

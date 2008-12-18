@@ -10,7 +10,7 @@ Echoe.new('idiomag', Idiomag::Version) do |p|
   p.extra_deps = [['httparty', '0.2.2'], ['json', '1.1.3']]
 end
  
-desc 'Preps the gem for a new release'
+desc 'Prep the gem for a new release'
 task :prepare do
   %w[manifest build_gemspec].each do |task|
     Rake::Task[task].invoke

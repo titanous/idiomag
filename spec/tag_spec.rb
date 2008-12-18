@@ -23,6 +23,14 @@ describe 'Idiomag::Tag' do
     @tag.respond_to?(:tracks).should == true
     @tag.respond_to?(:artists).should == true
   end
+
+  it 'should error on invalid get argument' do
+    lambda { @tag.get(:foo) }.should raise_error(ArgumentError)
+  end
+  
+  it 'should error on invalid method' do
+    lambda { @tag.foo }.should raise_error(NoMethodError)
+  end
   
   it 'should allow symbols and strings as tag names' do
     Idiomag::Tag.new(:alternative_rock)

@@ -11,6 +11,14 @@ describe 'Idiomag::Articles' do
     @articles.respond_to?(:featured).should == true
   end
   
+  it 'should error on invalid get argument' do
+    lambda { @articles.get(:foo) }.should raise_error(ArgumentError)
+  end
+  
+  it 'should error on invalid method' do
+    lambda { @articles.foo }.should raise_error(NoMethodError)
+  end
+  
   describe 'latest' do
     before(:each) do
       @data = open(Fixtures + 'articles_latest.json').read
