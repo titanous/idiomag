@@ -1,6 +1,7 @@
 module Idiomag
   class Tag
     include REST
+    include Parser
     
     def initialize(tag)
       raise ArgumentError if tag.blank?
@@ -79,45 +80,26 @@ module Idiomag
     private
     
       def get_articles
-        @article_data = fetch('tag/articles', {:tag => @tag})
-      
-        @articles = @article_data['articles']
-        @articles.each do |a|
-          a.rename_key!('sourceUrl', 'source_url')
-          a.keys_to_sym!
-          a[:date] = Time.parse(a[:date])
-        end
+        @articles = parse_articles(fetch('tag/articles', {:tag => @tag}))
       end
     
       def get_photos
-        @photo_data = fetch('tag/photos', {:tag => @tag})
-      
-        @photos = @photo_data['photos']
-        @photos.each do |p|
-          p.keys_to_sym!
-          p[:date] = Time.parse(p[:date])
-        end
+        @photos = parse_photos(fetch('tag/photos', {:tag => @tag}))
       end
     
       def get_videos
-        @video_data = fetch('tag/videos', {:tag => @tag})
-      
-        @videos = @video_data['tracks']
-        @videos.each {|v| v.keys_to_sym!}
+        @videos = parse_videos(fetch('tag/videos', {:tag => @tag}))
       end
     
       def get_playlist
-        @playlist_data = fetch('tag/playlist', {:tag => @tag})
-      
-        @playlist = @playlist_data['tracks']
-        @playlist.each {|v| v.keys_to_sym!}
+        @playlist = parse_playlist(fetch('tag/playlist', {:tag => @tag}))
       end
       
       def get_artists
-        @artist_data = fetch('tag/artist', {:tag => @tag})
+        artist_data = fetch('tag/artist', {:tag => @tag})
       
         @artists = {}
-        @artist_data['profile']['artist'].each {|t| @artists[t['title']] = t['value']}
+        artist_data['profile']['artist'].each {|t| @artists[t['title']] = t['value']}
       end
   end
 end

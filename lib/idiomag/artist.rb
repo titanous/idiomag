@@ -1,6 +1,7 @@
 module Idiomag
   class Artist
     include REST
+    include Parser
     
     def initialize(artist)
       raise ArgumentError if artist.blank?
@@ -66,54 +67,35 @@ module Idiomag
     private
     
       def get_info
-        @info_data = fetch('artist/info', {:artist => @artist})
-        @links = @info_data['links']['url']
+        info_data = fetch('artist/info', {:artist => @artist})
+        @links = info_data['links']['url']
       
         @related = {}
-        @info_data['related']['artist'].each {|a| @related[a['name']] = a['links']['url'][0] }
+        info_data['related']['artist'].each {|a| @related[a['name']] = a['links']['url'][0] }
       end
     
       def get_tags
-        @tag_data = fetch('artist/tags', {:artist => @artist})
+        tag_data = fetch('artist/tags', {:artist => @artist})
       
         @tags = {}
-        @tag_data['profile']['tag'].each {|t| @tags[t['name']] = t['value']}
+        tag_data['profile']['tag'].each {|t| @tags[t['name']] = t['value']}
         @tags.keys_to_sym!
       end
     
       def get_articles
-        @article_data = fetch('artist/articles', {:artist => @artist})
-      
-        @articles = @article_data['articles']
-        @articles.each do |a|
-          a.rename_key!('sourceUrl', 'source_url')
-          a.keys_to_sym!
-          a[:date] = Time.parse(a[:date])
-        end
+        @articles = parse_articles(fetch('artist/articles', {:artist => @artist}))
       end
     
       def get_photos
-        @photo_data = fetch('artist/photos', {:artist => @artist})
-      
-        @photos = @photo_data['photos']
-        @photos.each do |p|
-          p.keys_to_sym!
-          p[:date] = Time.parse(p[:date])
-        end
+        @photos = parse_photos(fetch('artist/photos', {:artist => @artist}))
       end
     
       def get_videos
-        @video_data = fetch('artist/videos', {:artist => @artist})
-      
-        @videos = @video_data['tracks']
-        @videos.each {|v| v.keys_to_sym!}
+        @videos = parse_videos(fetch('artist/videos', {:artist => @artist}))
       end
     
       def get_playlist
-        @playlist_data = fetch('artist/playlist', {:artist => @artist})
-      
-        @playlist = @playlist_data['tracks']
-        @playlist.each {|v| v.keys_to_sym!}
+        @playlist = parse_playlist(fetch('artist/playlist', {:artist => @artist}))
       end
   end
 end

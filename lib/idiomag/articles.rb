@@ -1,6 +1,7 @@
 module Idiomag
   class Articles
     include REST
+    include Parser
     
       def get(*args)
         args.each do |action|
@@ -38,25 +39,11 @@ module Idiomag
       private
 
         def get_latest
-          @latest_data = fetch('articles/latest')
-
-          @latest = @latest_data['articles']
-          @latest.each do |a|
-            a.rename_key!('sourceUrl', 'source_url')
-            a.keys_to_sym!
-            a[:date] = Time.parse(a[:date])
-          end
+          @latest = parse_articles(fetch('articles/latest'))
         end
         
         def get_featured
-          @featured_data = fetch('articles/featured')
-
-          @featured = @featured_data['articles']
-          @featured.each do |a|
-            a.rename_key!('sourceUrl', 'source_url')
-            a.keys_to_sym!
-            a[:date] = Time.parse(a[:date])
-          end
+          @featured = parse_articles(fetch('articles/featured'))
         end
   end
 end
