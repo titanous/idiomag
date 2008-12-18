@@ -10,6 +10,8 @@ module Idiomag
             get_latest
           when :featured
             get_featured
+          else
+            raise ArgumentError
           end
         end
       end

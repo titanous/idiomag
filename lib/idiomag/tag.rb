@@ -21,6 +21,8 @@ module Idiomag
           get_playlist
         when :artists
           get_artists
+        else
+          raise ArgumentError
         end
       end
     end

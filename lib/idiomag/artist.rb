@@ -23,6 +23,8 @@ module Idiomag
           get_videos
         when :playlist, :tracks
           get_playlist
+        else
+          raise ArgumentError
         end
       end
     end
