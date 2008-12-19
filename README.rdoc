@@ -1,1 +1,151 @@
- 
+= idiomag
+
+idiomag is a wrapper for the idiomag APIs (http://www.idiomag.com/api).
+
+All calls require a API key.
+
+
+== API Key
+  Idiomag::Base.api_key = 'foo'
+  
+== Prefetching
+
+By default the gem will lazily load data as it is requested.
+
+All resources support <tt>get</tt> like this:
+
+  articles.get(:latest, :featured)
+
+== Articles
+
+  articles = Idiomag::Articles.new
+
+  puts "latest articles:"
+  articles.latest.each {|article| puts "#{article[:title]} on #{article[:date].strftime('%A')}"}
+  puts "\n\n"
+
+  puts "featured articles:"
+  articles.featured.each {|article| puts "#{article[:title]} on #{article[:date].strftime('%A')}"}
+
+== Artist
+
+  artist = Idiomag::Artist.new('Anberlin')
+  artist.get(:info, :tags, :articles, :photos, :videos, :tracks)
+
+  puts "#{artist.name}'s URLs:"
+  artist.links.each {|link| puts link}
+  puts "\n\n"
+
+  puts "#{artist.name}'s related artists:"
+  artist.related.each {|name,link| puts "#{name}: #{link}"}
+  puts "\n\n"
+
+  puts "#{artist.name}'s tags:"
+  artist.tags.each {|tag,value| puts "#{tag} = #{value}"}
+  puts "\n\n"
+
+  puts "#{artist.name}'s recent articles:"
+  artist.articles.each {|article| puts "#{article[:title]} on #{article[:date].strftime('%A')}"}
+  puts "\n\n"
+
+  puts "#{artist.name}'s photos:"
+  artist.photos.each {|photo| puts photo[:url]}
+  puts "\n\n"
+
+  puts "#{artist.name}'s videos:"
+  artist.videos.each {|video| puts "#{video[:title]} - #{video[:location]}"}
+  puts "\n\n"
+
+  puts "#{artist.name}'s tracks:"
+  artist.tracks.each {|track| puts "#{track[:title]} - #{track[:location]}"}
+
+== Tag
+A tag is a music genre, such as Indie, Jazz or Emo. Tags can be either symbols or strings.
+
+<tt>Idiomag::Tag.list</tt> will return an array of valid tags.
+
+  tag = Idiomag::Tag.new(:alternative_rock)
+  tag.get(:artists, :articles, :photos, :videos, :tracks)
+
+  puts "artists for #{tag.name}:"
+  tag.artists.each {|name,value| puts "#{name}: #{value}"}
+  puts "\n\n"
+
+  puts "recent articles for #{tag.name}:"
+  tag.articles.each {|article| puts "#{article[:title]} on #{article[:date].strftime('%A')}"}
+  puts "\n\n"
+
+  puts "photos for #{tag.name}:"
+  tag.photos.each {|photo| puts photo[:url]}
+  puts "\n\n"
+
+  puts "videos for #{tag.name}:"
+  tag.videos.each {|video| puts "#{video[:title]} - #{video[:location]}"}
+  puts "\n\n"
+
+  puts "tracks for #{tag.name}:"
+  tag.tracks.each {|track| puts "#{track[:title]} - #{track[:location]}"}
+
+== User
+Gets info on an idiomag user.
+
+  user = Idiomag::User.new('Titanous')
+  user.get(:info, :articles, :loved_articles, :photos, :videos, :tracks)
+
+  puts "#{user.name}'s info:"
+  puts "email hash: #{user.email}"
+  puts "profile url: #{user.url}"
+  puts "\n"
+
+  puts "#{user.name}'s tags:"
+  user.tags.each {|tag,value| puts "#{tag} = #{value}"}
+  puts "\n"
+
+  puts "#{user.name}'s artists:"
+  user.artists.each {|name,value| puts "#{name}: #{value}"}
+  puts "\n\n"
+
+  puts "#{user.name}'s recent articles:"
+  user.articles.each {|article| puts "#{article[:title]} on #{article[:date].strftime('%A')}"}
+  puts "\n\n"
+
+  puts "#{user.name}'s loved articles:"
+  user.loved_articles.each {|article| puts "#{article[:title]} on #{article[:date].strftime('%A')}"}
+  puts "\n\n"
+
+  puts "#{user.name}'s photos:"
+  user.photos.each {|photo| puts photo[:url]}
+  puts "\n\n"
+
+  puts "#{user.name}'s videos:"
+  user.videos.each {|video| puts "#{video[:title]} - #{video[:location]}"}
+  puts "\n\n"
+
+  puts "#{user.name}'s tracks:"
+  user.tracks.each {|track| puts "#{track[:title]} - #{track[:location]}"}
+  
+== Recommendation
+Provides recommendations based on a list of artists. This list of artists can be provided as either an apml url, an array, or a site such as last.fm
+
+  recommendation = Idiomag::Recommendation.new(:network => :lastfm, :user => 'titanous')
+  recommendation.get(:articles, :artists)
+
+  puts "recommended artists:"
+  recommendation.artists.each {|name,value| puts "#{name}: #{value}"}
+  puts "\n\n"
+
+  puts "recommended articles:"
+  recommendation.articles.each {|article| puts "#{article[:title]} on #{article[:date].strftime('%A')}"}
+
+=== Lookup types
+==== Network
+  Idiomag::Recommendation.new(:network => :lastfm, :user => 'titanous')
+
+Supported networks:
+  [:lastfm, :mog, :ilike, :mystrands, :projectplaylist, :imeem, :pandora, :bebo, :myspace, :songza]
+
+==== APML
+  Idiomag::Recommendation.new(:apml => 'http://research.sun.com:8080/AttentionProfile/apml/music/titanous')
+
+==== Artist List
+  Idiomag::Recommendation.new(:artists => ['Relient K', 'Anberlin'])
