@@ -52,3 +52,8 @@ task :website_docs do
   Rake::Task['rdoc'].invoke
   sh %{rsync -av doc/ #{WEBSITE_PATH}/docs}
 end
+
+task :push do
+  sh %{git push origin}
+  sh %{git push rubyforge}
+end
