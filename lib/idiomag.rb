@@ -1,7 +1,7 @@
 $:.unshift File.dirname(__FILE__)
 
 require 'rubygems'
-gem 'httparty'
+gem 'httparty', '>= 0.2.2'
 require 'httparty'
 
 require 'time'
