@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>idiomag by Jonathan Rudenberg</title>
+	<link rel="stylesheet" href="css/common.css" type="text/css" />
+</head>
+<body>
+
+<div id="wrapper">
+	<div id="header">
+		<h1>idiomag</h1>
+		
+		<ul id="nav">
+			<li><a href="docs/">Docs</a></li>
+			<li><a href="http://rubyforge.org/projects/idiomag/">Rubyforge</a></li>
+			<li><a href="http://github.com/titanous/idiomag/">GitHub</a></li>
+		</ul>
+	</div>
+	
+	<div id="content">
+		<p>idiomag is a wrapper for the <a href="http://www.idiomag.com/api">idiomag APIs</a>.</p>
+		
+		<h2>Installation</h2>
+		
+		<pre><code>$ sudo gem install idiomag</code></pre>
+		
+		<h2>Usage</h2>
+
+<h3>API Key</h3>
+<pre><code>
+Idiomag::Base.api_key = 'foo'
+</code></pre>
+<h3>Prefetching</h3>
+<p>
+By default the gem will lazily load data as it is requested.
+</p>
+<p>
+All resources support <code>get</code> like this:
+</p>
+<pre><code>
+articles.get(:latest, :featured)
+</code></pre>
+<h3>Articles</h3>
+<pre><code>
+articles = Idiomag::Articles.new
+
+puts &quot;latest articles:&quot;
+articles.latest.each {|article| puts &quot;#{article[:title]} on #{article[:date].strftime('%A')}&quot;}
+puts &quot;\n\n&quot;
+
+puts &quot;featured articles:&quot;
+articles.featured.each {|article| puts &quot;#{article[:title]} on #{article[:date].strftime('%A')}&quot;}
+</code></pre>
+<h3>Artist</h3>
+<pre><code>
+artist = Idiomag::Artist.new('Anberlin')
+artist.get(:info, :tags, :articles, :photos, :videos, :tracks)
+
+puts &quot;#{artist.name}'s URLs:&quot;
+artist.links.each {|link| puts link}
+puts &quot;\n\n&quot;
+
+puts &quot;#{artist.name}'s related artists:&quot;
+artist.related.each {|name,link| puts &quot;#{name}: #{link}&quot;}
+puts &quot;\n\n&quot;
+
+puts &quot;#{artist.name}'s tags:&quot;
+artist.tags.each {|tag,value| puts &quot;#{tag} = #{value}&quot;}
+puts &quot;\n\n&quot;
+
+puts &quot;#{artist.name}'s recent articles:&quot;
+artist.articles.each {|article| puts &quot;#{article[:title]} on #{article[:date].strftime('%A')}&quot;}
+puts &quot;\n\n&quot;
+
+puts &quot;#{artist.name}'s photos:&quot;
+artist.photos.each {|photo| puts photo[:url]}
+puts &quot;\n\n&quot;
+
+puts &quot;#{artist.name}'s videos:&quot;
+artist.videos.each {|video| puts &quot;#{video[:title]} - #{video[:location]}&quot;}
+puts &quot;\n\n&quot;
+
+puts &quot;#{artist.name}'s tracks:&quot;
+artist.tracks.each {|track| puts &quot;#{track[:title]} - #{track[:location]}&quot;}
+</code></pre>
+<h3>Tag</h3>
+<p>
+A tag is a music genre, such as Indie, Jazz or Emo. Tags can be either
+symbols or strings.
+</p>
+<p>
+<code>Idiomag::Tag.list</code> will return an array of valid tags.
+</p>
+<pre><code>
+tag = Idiomag::Tag.new(:alternative_rock)
+tag.get(:artists, :articles, :photos, :videos, :tracks)
+
+puts &quot;artists for #{tag.name}:&quot;
+tag.artists.each {|name,value| puts &quot;#{name}: #{value}&quot;}
+puts &quot;\n\n&quot;
+
+puts &quot;recent articles for #{tag.name}:&quot;
+tag.articles.each {|article| puts &quot;#{article[:title]} on #{article[:date].strftime('%A')}&quot;}
+puts &quot;\n\n&quot;
+
+puts &quot;photos for #{tag.name}:&quot;
+tag.photos.each {|photo| puts photo[:url]}
+puts &quot;\n\n&quot;
+
+puts &quot;videos for #{tag.name}:&quot;
+tag.videos.each {|video| puts &quot;#{video[:title]} - #{video[:location]}&quot;}
+puts &quot;\n\n&quot;
+
+puts &quot;tracks for #{tag.name}:&quot;
+tag.tracks.each {|track| puts &quot;#{track[:title]} - #{track[:location]}&quot;}
+</code></pre>
+<h3>User</h3>
+<p>
+Gets info on an idiomag user.
+</p>
+<pre><code>
+user = Idiomag::User.new('Titanous')
+user.get(:info, :articles, :loved_articles, :photos, :videos, :tracks)
+
+puts &quot;#{user.name}'s info:&quot;
+puts &quot;email hash: #{user.email}&quot;
+puts &quot;profile url: #{user.url}&quot;
+puts &quot;\n&quot;
+
+puts &quot;#{user.name}'s tags:&quot;
+user.tags.each {|tag,value| puts &quot;#{tag} = #{value}&quot;}
+puts &quot;\n&quot;
+
+puts &quot;#{user.name}'s artists:&quot;
+user.artists.each {|name,value| puts &quot;#{name}: #{value}&quot;}
+puts &quot;\n\n&quot;
+
+puts &quot;#{user.name}'s recent articles:&quot;
+user.articles.each {|article| puts &quot;#{article[:title]} on #{article[:date].strftime('%A')}&quot;}
+puts &quot;\n\n&quot;
+
+puts &quot;#{user.name}'s loved articles:&quot;
+user.loved_articles.each {|article| puts &quot;#{article[:title]} on #{article[:date].strftime('%A')}&quot;}
+puts &quot;\n\n&quot;
+
+puts &quot;#{user.name}'s photos:&quot;
+user.photos.each {|photo| puts photo[:url]}
+puts &quot;\n\n&quot;
+
+puts &quot;#{user.name}'s videos:&quot;
+user.videos.each {|video| puts &quot;#{video[:title]} - #{video[:location]}&quot;}
+puts &quot;\n\n&quot;
+
+puts &quot;#{user.name}'s tracks:&quot;
+user.tracks.each {|track| puts &quot;#{track[:title]} - #{track[:location]}&quot;}
+</code></pre>
+<h3>Recommendation</h3>
+<p>
+Provides recommendations based on a list of artists. This list of artists
+can be provided as either an apml url, an array, or a site such as last.fm
+</p>
+<pre><code>
+recommendation = Idiomag::Recommendation.new(:network =&gt; :lastfm, :user =&gt; 'titanous')
+recommendation.get(:articles, :artists)
+
+puts &quot;recommended artists:&quot;
+recommendation.artists.each {|name,value| puts &quot;#{name}: #{value}&quot;}
+puts &quot;\n\n&quot;
+
+puts &quot;recommended articles:&quot;
+recommendation.articles.each {|article| puts &quot;#{article[:title]} on #{article[:date].strftime('%A')}&quot;}
+</code></pre>
+<h4>Lookup types</h4>
+<h4>Network</h4>
+<pre><code>
+Idiomag::Recommendation.new(:network =&gt; :lastfm, :user =&gt; 'titanous')
+</code></pre>
+<p>
+Supported networks:
+</p>
+<pre><code>
+[:lastfm, :mog, :ilike, :mystrands, :projectplaylist, :imeem, :pandora, :bebo, :myspace, :songza]
+</code></pre>
+<h4>APML</h4>
+<pre><code>
+Idiomag::Recommendation.new(:apml =&gt; 'http://research.sun.com:8080/AttentionProfile/apml/music/titanous')
+</code></pre>
+<h4>Artist List</h4>
+<pre><code>
+Idiomag::Recommendation.new(:artists =&gt; ['Relient K', 'Anberlin'])
+</code></pre>
+	<div id="footer">
+		<p>Created by <a href="http://titanous.com">Jonathan Rudenberg</a></p>
+	</div>
+
+</div>
+
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+<script type="text/javascript">_uacct = "UA-85301-11"; urchinTracker();</script>
+
+</body>
+</html>
