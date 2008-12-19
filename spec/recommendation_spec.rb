@@ -31,7 +31,7 @@ describe 'Idiomag::Recommendation' do
     end
       
     it 'should not allow invalid networks' do
-      lambda { Idiomag::Recommendation.new(:network=>:bar,:user=>'foo') }.should raise_error(ArgumentError)
+      lambda { Idiomag::Recommendation.new(:network=>:bar,:username=>'foo') }.should raise_error(ArgumentError)
     end
     
     it 'should error if missing user' do

@@ -7,7 +7,7 @@ module Idiomag
         @user = options[:user]
         @network = options[:network]
         raise ArgumentError if !ValidNetworks.include?(@network)
-        @query = {:network => @network,:user => @user}
+        @query = {:network => @network,:username => @user}
       elsif !options[:apml].blank?
         @apml = options[:apml]
         @query = {:apml => @apml}
