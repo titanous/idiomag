@@ -1,41 +1,35 @@
-require 'rubygems'
 require 'rake'
-require 'echoe'
-require 'lib/idiomag/version'
+require 'rake/rdoctask'
+require 'rcov/rcovtask'
+require 'spec/rake/spectask'
 
-Rake::TaskManager.class_eval do
-  def remove_task(task_name)
-    @tasks.delete(task_name.to_s)
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |s|
+    s.name = 'idiomag'
+    s.summary = 'wrapper for the idiomag api'
+    s.email = 'jon335@gmail.com'
+    s.homepage = 'http://github.com/titanous/idiomag'
+    s.authors = ['Jonathan Rudenberg']
+    s.add_dependency('httparty', '>= 0.2.2')
   end
-end
- 
-def remove_task(task_name)
-  Rake.application.remove_task(task_name)
+rescue LoadError
+  puts 'Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com'
 end
 
-Echoe.new('idiomag', Idiomag::Version) do |p|
-  p.description = 'wrapper for the idiomag api'
-  p.author = 'Jonathan Rudenberg'
-  p.email = 'jon335@gmail.com'
-  p.extra_deps = [['httparty', '0.2.2']]
-end
- 
-desc 'Prep the gem for a new release'
-task :prepare do
-  %w[manifest build_gemspec].each do |task|
-    Rake::Task[task].invoke
-  end
+Rake::RDocTask.new do |rdoc|
+  rdoc.rdoc_dir = 'doc'
+  rdoc.title    = 'idiomag'
+  rdoc.options << '--line-numbers' << '--inline-source'
+  rdoc.rdoc_files.include('README*')
+  rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
-remove_task :coverage # broken in echoe
-desc 'Analyze code coverage with tests for coverage'
-task :coverage do
-  rm_f "coverage"
-  system "rcov --text-summary -Ilib -x spec spec/*_spec.rb"
-  system "open coverage/index.html" if PLATFORM['darwin']
+desc 'Run all specs with rcov'
+Rcov::RcovTask.new do |t|
+  t.test_files = FileList['spec/*_spec.rb']
+  t.rcov_opts = ['--exclude', 'spec']
+  t.verbose = true
 end
 
-desc 'Run specs'
-task :spec do
-  system "spec -c spec/*_spec.rb"
-end
+task :default => :rcov
