@@ -2,6 +2,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'idiomag
 
 Idiomag::Base.api_key = 'foo' # get this @ idiomag.com/api
 artist = Idiomag::Artist.new('Anberlin')
+artist.get(:info, :tags, :articles, :photos, :videos, :tracks) # prefetch data (optional)
 
 puts "#{artist.name}'s URLs:"
 artist.links.each {|link| puts link}
@@ -29,4 +30,3 @@ puts "\n\n"
 
 puts "#{artist.name}'s tracks:"
 artist.tracks.each {|track| puts "#{track[:title]} - #{track[:location]}"}
-puts "\n\n"
