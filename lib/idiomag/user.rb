@@ -84,10 +84,10 @@ module Idiomag
         @url = info_data['url']
         
         @artists = {}
-        info_data['artists']['artist'].each {|a| @artists[a['title']] = a['value'] }
+        info_data['artists']['artist'].each {|a| @artists[a['title']] = a['value'] } if !info_data['artists'].blank?
         
         @tags = {}
-        info_data['tags']['tag'].each {|t| @tags[t['name']] = t['value']}
+        info_data['tags']['tag'].each {|t| @tags[t['name']] = t['value']} if !info_data['tags'].blank?
         @tags.keys_to_sym!
       end
       

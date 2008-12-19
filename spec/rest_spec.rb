@@ -27,4 +27,15 @@ describe 'Idiomag::REST' do
     HTTParty.should_receive(:get).with(Idiomag::API_URL + 'bar/json',:query=>{:key=>'foo'}).and_return(@data)
     Idiomag::REST.fetch('bar',{},false).class.should == String
   end
+  
+  it 'should raise if HTTP error 400' do
+    @exception = Net::HTTPServerException.new('400','')
+    HTTParty.should_receive(:get).and_raise(@exception)
+    lambda { Idiomag::REST.fetch('bar') }.should raise_error(ArgumentError)
+  end
+  
+  it 'should raise if response blank' do
+    HTTParty.should_receive(:get).and_return('')
+    lambda { Idiomag::REST.fetch('bar') }.should raise_error(Idiomag::InvalidResult)
+  end
 end
