@@ -1,7 +1,11 @@
 require 'rake'
-require 'rake/rdoctask'
 require 'rcov/rcovtask'
 require 'spec/rake/spectask'
+begin
+  require 'hanna/rdoctask'
+rescue LoadError
+  require 'rake/rdoctask'
+end
 
 WEBSITE_PATH = 'titanous@rubyforge.org:/var/www/gforge-projects/idiomag'
 
